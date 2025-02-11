@@ -14,10 +14,6 @@
         echo $title . '<br>' . $author . '<br>' . $category . '<br>' . $content;
 
 
-        $title = '';
-        $author = '';
-        $category = '';
-        $content = '';
     }
     
 ?>

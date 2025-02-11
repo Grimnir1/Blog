@@ -26,7 +26,7 @@
                         <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="#">Create Blog</a>
+                        <a class="nav-link" href="createBlog.php">Create Blog</a>
                         </li>
                         <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>

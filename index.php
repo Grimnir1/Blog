@@ -1,10 +1,10 @@
 <?php include 'blogDetails.php' ?>
 <?php require 'nav.php'?>
 
-    <section class="container" style="min-height: 40dvh;">
-        <div class="container col-md-6 h-100 align-content-center">
-            <h4 class="text-center">Welcome To My Blog👋</h4>
-            <p class="text-center p-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Possimus corrupti repellendus sunt. Inventore, alias nemo optio non hic et culpa excepturi unde aliquam ducimus omnis similique iste enim natus blanditiis.</p>
+    <section class="container-fluid mt-5 align-content-center" style="min-height: 70dvh;">
+        <div class="container align-content-center" style="min-height: 40dvh; ">
+            <h3 class="text-center p-3">Welcome To My Blog👋</h3>   
+            <p class="text-center p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa voluptas harum illo aperiam eum soluta quas assumenda minima dolore architecto, cupiditate fugit perspiciatis accusamus sapiente laudantium ipsam eveniet ex error!</p>
         </div>
     </section>
 
@@ -27,8 +27,4 @@
     </section>
 
     
-
     <?php require 'footer.php'?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>

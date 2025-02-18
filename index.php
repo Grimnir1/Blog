@@ -1,7 +1,22 @@
-<?php include 'blogDetails.php' ?>
-<?php require 'nav.php'?>
+<?php 
+    // include 'blogDetails.php';
+    require 'nav.php';
+    require 'database.php';
 
-    <section class="container-fluid mt-5 align-content-center" style="min-height: 70dvh;">
+
+    $sql = 'SELECT * FROM blogs';
+    $query = mysqli_query($conn, $sql);
+    $blogPosts = [];  
+
+    while($row = mysqli_fetch_assoc($query)) {
+        $blogPosts[] = $row;
+    }
+    
+
+ 
+ ?>
+
+    <section class="container-fluid mt-5 align-content-center" style="min-height: 50dvh;">
         <div class="container align-content-center" style="min-height: 40dvh; ">
             <h3 class="text-center p-3">Welcome To My Blog👋</h3>   
             <p class="text-center p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa voluptas harum illo aperiam eum soluta quas assumenda minima dolore architecto, cupiditate fugit perspiciatis accusamus sapiente laudantium ipsam eveniet ex error!</p>
@@ -16,8 +31,8 @@
                         <div class="card-body">
                             <h5 class="card-title p-2"><?php echo $blog['title']; ?></h5>
                             <h6 class="card-subtitle p-2 mb-2 text-body-secondary">By <?php echo $blog['author']; ?></h6>
-                            <p class="card-text p-2 mb-1"><?php echo $blog['content'] ?></p>
-                            <small class="fw-medium p-2 mb-4"><?php echo $blog['date'] ?></small>
+                            <p style="overflow: hidden; white-space:nowrap; text-overflow: ellipsis;" class="card-text p-2 mb-1"><?php echo $blog['content'] ?></p>
+                            <small class="fw-medium p-2 mb-4"><?php echo $blog['date_created'] ?></small>
                             <a href="#" class="d-block p-2 card-link">Read more</a>
                         </div>
                     </div>

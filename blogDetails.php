@@ -138,6 +138,7 @@ $blogPosts = [
         'title' => 'Introduction to Cybersecurity',
         'author' => 'Rachel Carter',
         'date' => '2023-10-20',
+        
         'content' => 'Cybersecurity is the practice of protecting systems, networks, and programs from digital attacks...',
         'tags' => ['Cybersecurity', 'Technology', 'Security']
     ],
@@ -148,7 +149,7 @@ $blogPosts = [
         "category" => "Introduction",
         "tags" => ["blog", "welcome", "starting"],
         "date" => "2022-01-01",
-        ],
+    ],
     [
         "title" => "The Power of PHP in Web Development",
         "author" => "Bob Johnson",
@@ -156,7 +157,7 @@ $blogPosts = [
         "category" => "Web Development",
         "tags" => ["php", "webdev", "programming"],
         "date" => "2022-01-15",
-        ],
+    ],
     [
         "id" => 3,
         "title" => "Getting Started with DeFi and Crypto",
@@ -165,7 +166,7 @@ $blogPosts = [
         "category" => "Cryptocurrency",
         "tags" => ["defi", "crypto", "blockchain"],
         "date" => "2022-02-01",
-        ],
+    ],
     [
         "title" => "Exploring the World of E-commerce with Shopify",
         "author" => "Emily Patel",
@@ -173,7 +174,7 @@ $blogPosts = [
         "category" => "E-commerce",
         "tags" => ["shopify", "ecommerce", "online store"],
         "date" => "2022-02-15",
-        ],
+],
     [
         "title" => "Unlocking the Potential of Artificial Intelligence",
         "author" => "David Lee",
@@ -181,7 +182,7 @@ $blogPosts = [
         "category" => "Artificial Intelligence",
         "tags" => ["ai", "machine learning", "innovation"],
         "date" => "2022-03-01",
-        ],
+    ],
     [
         "title" => "Cybersecurity 101: Protecting Your Digital Footprint",
         "author" => "Sarah Taylor",
@@ -189,7 +190,7 @@ $blogPosts = [
         "category" => "Cybersecurity",
         "tags" => ["cybersecurity", "online safety", "protection"],
         "date" => "2022-03-15",
-        ],
+    ],
     [
         "title" => "The Rise of Sustainable Fashion: Trends and Insights",
         "author" => "Olivia Green",
@@ -197,7 +198,7 @@ $blogPosts = [
         "category" => "Fashion",
         "tags" => ["sustainable fashion", "eco-friendly", "fashion trends"],
         "date" => "2022-04-01",
-        ],
+    ],
     [
         "title" => "Mastering the Art of Productivity with Time Management",
         "author" => "Jackson Lee",
@@ -205,7 +206,7 @@ $blogPosts = [
         "category" => "Productivity",
         "tags" => ["productivity", "time management", "efficiency"],
         "date" => "2022-04-15",
-        ],
+    ],
     [
         "title" => "The Future of Transportation: Electric and Autonomous Vehicles",
         "author" => "Sophia Patel",
@@ -213,7 +214,7 @@ $blogPosts = [
         "category" => "Technology",
         "tags" => ["electric vehicles", "autonomous vehicles", "future tech"],
         "date" => "2022-05-01",
-        ],
+    ],
     [
         "title" => "Wellness in the Digital Age: Mindfulness and Self-Care",
         "author" => "Emily Chen",
@@ -221,7 +222,7 @@ $blogPosts = [
         "category" => "Wellness",
         "tags" => ["wellness", "mindfulness", "self-care"],
         "date" => "2022-05-15",
-        ],
+    ],
     [
         "id" => 11,
         "title" => "Breaking into the Gaming Industry: Insights and Advice",
@@ -230,7 +231,7 @@ $blogPosts = [
         "category" => "Gaming",
         "tags" => ["gaming industry", "career advice", "game development"],
         "date" => "2022-06-01",
-        ],
+    ],
     [
         "title" => "The Impact of Social Media on Mental Health",
         "author" => "Sarah Taylor",
@@ -238,7 +239,7 @@ $blogPosts = [
         "category" => "Mental Health",
         "tags" => ["social media", "mental health", "wellness"],
         "date" => "2022-06-15",
-        ],
+    ],
     [
         "title" => "Revolutionizing Education with EdTech Innovations",
         "author" => "Olivia Green",
@@ -246,7 +247,7 @@ $blogPosts = [
         "category" => "Education",
         "tags" => ["edtech", "education innovation", "learning"],
         "date" => "2022-07-01",
-        ]
+    ]
 
 ];
 

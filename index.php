@@ -1,16 +1,13 @@
-<?php 
-    // include 'blogDetails.php';
+<?php
     require 'nav.php';
     require 'database.php';
 
 
     $sql = 'SELECT * FROM blogs';
     $query = mysqli_query($conn, $sql);
-    $blogPosts = [];  
+    $blogPosts = mysqli_fetch_all($query, MYSQLI_ASSOC);  
 
-    while($row = mysqli_fetch_assoc($query)) {
-        $blogPosts[] = $row;
-    }
+    
     
 
  
@@ -28,12 +25,13 @@
             <?php foreach ($blogPosts as $blog) { ?>
                 <div class="blog-card col-md-4 align-content-center">
                     <div class="card m-auto"  style="min-height: 30dvh;">
-                        <div class="card-body">
+                        <div class="card-body hoho" >
+                            <img src="<?php echo $blog['imagePath']; ?>" class="card-img-top" alt="...">
                             <h5 class="card-title p-2"><?php echo $blog['title']; ?></h5>
                             <h6 class="card-subtitle p-2 mb-2 text-body-secondary">By <?php echo $blog['author']; ?></h6>
                             <p style="overflow: hidden; white-space:nowrap; text-overflow: ellipsis;" class="card-text p-2 mb-1"><?php echo $blog['content'] ?></p>
                             <small class="fw-medium p-2 mb-4"><?php echo $blog['date_created'] ?></small>
-                            <a href="#" class="d-block p-2 card-link">Read more</a>
+                            <a href="singleBlog.php/?id=<?php echo $blog['blogID']?>" class="d-block p-2 card-link">Read more</a>
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,8 @@ require('database.php');
         'title' => '',
         'author' => '',
         'category' => '',
-        'content' => ''
+        'content' => '',
+        'image' => ''
     ];
     
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -83,21 +84,28 @@ require('database.php');
                         }
                 }else {
                     $alert = '<div class="alert alert-danger text-center alert-dismissible fade show" role="alert">
-                                Error Uploading Image
+                                File type not supported. Please upload JPG, JPEG, PNG or SVG.
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>';
+                    $errors['image'] = 'File type not supported. Please upload JPG, JPEG, PNG or SVG.';
                 }
+                }
+                else {
+                    $alert = '<div class="alert alert-danger text-center alert-dismissible fade show" role="alert">
+                                File is too large. Maximum size is 10MB.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>';
+                    $errors['image'] = 'File is too large. Maximum size is 10MB.';
                 }
                 
                 
-            }else{ 
+            }else if($imageError !== 4){ // Error 4 means no file was uploaded, which might be intentional
                 $alert = '<div class="alert alert-danger text-center alert-dismissible fade show" role="alert">
-                            Error Uploading Image
+                            Error uploading image. Please try again.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         ';
-
-                
+                $errors['image'] = 'Error uploading image. Please try again.';
             
         };
         
@@ -107,56 +115,112 @@ require('database.php');
         }
     };
 ?>  
-    <div class="container col-md-5 mt-5 my-5">
-        <form action="" method="post" enctype="multipart/form-data">
-            <?php echo $alert ?>
-            <div>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h3 class="text-center mb-0">Create a New Blog Post</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php echo $alert ?>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Post Title</label>
+                                <input 
+                                    type="text" 
+                                    id="title"
+                                    placeholder="Enter a descriptive title" 
+                                    name="title" 
+                                    class="form-control <?php echo $errors['title'] ? 'is-invalid' : ''; ?>" 
+                                    value="<?php echo htmlspecialchars($title)?>"
+                                >
+                                <?php if($errors['title']): ?>
+                                    <div class="invalid-feedback"><?php echo $errors['title']?></div>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="author" class="form-label">Author</label>
+                                <input 
+                                    type="text" 
+                                    id="author"
+                                    placeholder="Your name" 
+                                    name="author" 
+                                    class="form-control <?php echo $errors['author'] ? 'is-invalid' : ''; ?>" 
+                                    value="<?php echo htmlspecialchars($author)?>"
+                                >
+                                <?php if($errors['author']): ?>
+                                    <div class="invalid-feedback"><?php echo $errors['author']?></div>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <select 
+                                    name="category" 
+                                    id="category" 
+                                    class="form-select <?php echo $errors['category'] ? 'is-invalid' : ''; ?>"
+                                >
+                                    <option value="">Select Category</option>
+                                    <option value="Programming">Programming</option>
+                                    <option value="Mindset">Web Development</option>
+                                    <option value="Gaming">Gaming</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Health">Health</option>
+                                    <option value="Lifestyle">Lifestyle</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Fashion">Fashion</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Music">Music</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Politics">Politics</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Technology">Technology</option>
+                                </select>
+                                <?php if($errors['category']): ?>
+                                    <div class="invalid-feedback"><?php echo $errors['category']?></div>
+                                <?php endif; ?>
+                            </div>
+                
+                            <div class="mb-3">
+                                <label for="content" class="form-label">Post Content</label>
+                                <textarea   
+                                    name="content"    
+                                    id="content"  
+                                    placeholder="Write your blog post content here..."    
+                                    class="form-control <?php echo $errors['content'] ? 'is-invalid' : ''; ?>"
+                                    rows="6"
+                                ><?php echo htmlspecialchars($content)?></textarea>
+                                <?php if($errors['content']): ?>
+                                    <div class="invalid-feedback"><?php echo $errors['content']?></div>
+                                <?php endif; ?>
+                            </div>
 
-                <h3 align="center">Create A Post</h3>
-                <input 
-                    type="text" 
-                    placeholder="Title" 
-                    name="title" 
-                    class="form-control mt-3" 
-                    value="<?php echo htmlspecialchars($title)?>"
-                >
-                <small class=" text-danger"><?php echo $errors['title']?></small>
-                <input 
-                    type="text" 
-                    placeholder="Author" 
-                    name="author" 
-                    class="form-control mt-3" 
-                    value="<?php echo htmlspecialchars($author)?>"
-                >
-                <small class=" text-danger"><?php echo $errors['author']?></small>
-                <select 
-                    name="category" 
-                    id="" 
-                    class="form-select mt-3"
-                >
-                    <option value="">Select Category</option>
-                    <option value="programming">Programming</option>
-                    <option value="webDevelopment">Web Development</option>
-                    <option value="gaming">Gaming</option>
-                    <option value="education">Education</option>
-                    <option value="health">Health</option>
-                </select>
-                <small class=" text-danger"><?php echo $errors['category']?></small>
-    
-                <textarea   
-                    name="content"    
-                    id=""  
-                    placeholder="Content"    
-                    class="form-control mt-3"  
-                ></textarea>
-                <small class="text-center text-danger"><?php echo $errors['content']?></small>
+                            <div class="mb-4">
+                                <label for="image" class="form-label">Featured Image</label>
+                                <input 
+                                    type="file" 
+                                    name="image" 
+                                    id="image"
+                                    class="form-control <?php echo $errors['image'] ? 'is-invalid' : ''; ?>" 
+                                >
+                                <div class="form-text">Supported formats: JPG, JPEG, PNG, SVG. Max size: 10MB.</div>
+                                <?php if($errors['image']): ?>
+                                    <div class="invalid-feedback"><?php echo $errors['image']?></div>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-secondary">Publish Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <label for="image"> Upload Image:</label>
-            <input type="file" name="image" class="form-control mb-2" >
-            <button type="submit" class="btn btn-primary mt-3 ms-auto">Post</button>
-
-        </form>
+        </div>
     </div>
 
     <script>

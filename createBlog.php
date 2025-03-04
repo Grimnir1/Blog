@@ -1,6 +1,10 @@
 <?php require 'nav.php'?>
-
 <?php 
+
+if(!$id){
+    header('Location: login.php');
+    exit();
+}
 require('database.php');
     $title = '';
     $author = '';
@@ -27,7 +31,8 @@ require('database.php');
     
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $title = mysqli_real_escape_string($conn, $_POST['title']);
-        $author = mysqli_real_escape_string($conn, $_POST['author']);
+        $author = mysqli_real_escape_string($conn, $_SESSION['username']);
+        $authorID = mysqli_real_escape_string($conn, $_SESSION['user']);
         $category = mysqli_real_escape_string($conn, $_POST['category']);
         $content = mysqli_real_escape_string($conn, $_POST['content']);
         $target_dir = "uploads/";
@@ -41,8 +46,6 @@ require('database.php');
 
         if (empty($title)) {
             $errors['title'] = 'Title is required';
-        }elseif (empty($author)) {
-            $errors['author'] = 'Author is required';
         }elseif (empty($category)) {
             $errors['category'] = 'Category is required';
         }elseif (empty($content)) {
@@ -60,8 +63,8 @@ require('database.php');
                         if(move_uploaded_file($tempName, $target_image)) {
                             $imagePath = $target_image;
 
-                            $sql = "INSERT INTO `blogs`(`title`, `category`, `author`, `content` , `imagePath`)
-                        VALUES ('$title', '$category', '$author', '$content', '$imagePath')
+                            $sql = "INSERT INTO `blogs`(`title`, `category`,  `content` , `imagePath`, `createdBy`)
+                        VALUES ('$title', '$category', '$content', '$imagePath', '$authorID')
                         ";
                         $result = mysqli_query($conn, $sql);
                         if ($result) {
@@ -140,20 +143,7 @@ require('database.php');
                                 <?php endif; ?>
                             </div>
                             
-                            <div class="mb-3">
-                                <label for="author" class="form-label">Author</label>
-                                <input 
-                                    type="text" 
-                                    id="author"
-                                    placeholder="Your name" 
-                                    name="author" 
-                                    class="form-control <?php echo $errors['author'] ? 'is-invalid' : ''; ?>" 
-                                    value="<?php echo htmlspecialchars($author)?>"
-                                >
-                                <?php if($errors['author']): ?>
-                                    <div class="invalid-feedback"><?php echo $errors['author']?></div>
-                                <?php endif; ?>
-                            </div>
+                            
                             
                             <div class="mb-3">
                                 <label for="category" class="form-label">Category</label>
@@ -179,6 +169,10 @@ require('database.php');
                                     <option value="Politics">Politics</option>
                                     <option value="Science">Science</option>
                                     <option value="Technology">Technology</option>
+                                    <option value="Anime">Anime</option>
+                                    <option value="Movies">Movies</option>
+                                    <option value="Books">Books</option>
+
                                 </select>
                                 <?php if($errors['category']): ?>
                                     <div class="invalid-feedback"><?php echo $errors['category']?></div>

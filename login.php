@@ -1,5 +1,7 @@
+<?php require 'nav.php';?>
 <?php
     include("database.php");
+
 
     $email = $password = '';
     $error ='';
@@ -33,9 +35,13 @@
                 $dbPassword = $result['password'];
 
                 if(password_verify($password, $dbPassword)){
+
+                    $_SESSION['user'] = $result['userID'];
+                    $_SESSION['dateJoined'] = $result['dateJoined'];
+                    $_SESSION['username'] = $result['lastname'] . " " . $result['firstname'];
+
                     header('Location: index.php');
                     exit();
-                    $email = $password = '';
                 }else{
                     $error = '
                     <div class="alert text-center alert-danger alert-dismissible fade show" role="alert">
@@ -58,8 +64,7 @@
     };
     
 ?>
-<?php require 'nav.php';?>
-<body>
+
     <section class="container-fluid align-content-center " style="min-height: 80vh;">
         <div class="container col-md-4 border bg-light p-5 shadow-lg rounded mt-5">
             <?php echo $error?>

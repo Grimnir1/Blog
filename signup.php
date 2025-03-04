@@ -1,3 +1,5 @@
+<?php require 'nav.php';?>
+
 <?php
     include("database.php");
 

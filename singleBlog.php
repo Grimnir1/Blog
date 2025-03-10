@@ -13,11 +13,6 @@ if (isset($_GET['id'])) {
     $query2 = mysqli_query($conn, $sql2);
     $commentCount = mysqli_num_rows($query2);
     $comments = mysqli_fetch_all($query2, MYSQLI_ASSOC);
-    
-
-
-
-
 }
  function getblogAuthor($createdBy){
     require 'database.php';
@@ -38,7 +33,7 @@ if (isset($_GET['id'])) {
     $sql = "SELECT * FROM users WHERE userID = '$createdBy'";
     $query = mysqli_query($conn, $sql);
     $result = mysqli_fetch_assoc($query);
-    return $result['about'];
+    return $result['description'];
  }
  $commentSubmit = isset($_POST['comment']) ?? null;
 if ($commentSubmit) {
@@ -52,6 +47,32 @@ if ($commentSubmit) {
         header("Location: ../singleBlog.php/?id=" . $blog['blogID']);
     }
 }
+
+$editBlog = isset($_POST['editBlog']) ?? null;
+if ($editBlog) {
+    $id = $_GET['id'];
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $category = mysqli_real_escape_string($conn, $_POST['category']);
+    $content = mysqli_real_escape_string($conn, $_POST['content']);
+
+    $sql = "UPDATE `blogs` SET `title` = '$title', `category` = '$category', `content` = '$content' WHERE `blogs`.`blogID` = $id";  
+    $query = mysqli_query($conn, $sql);
+
+    if ($query){
+        echo 'kokok';
+         header("Location: ../singleBlog.php/?id=" . $blog['blogID']);
+    }
+}
+$delete = isset($_POST['delete']) ?? null;
+if ($delete) {
+    $id = $_GET['id'];
+    $sql = "DELETE FROM `blogs` WHERE `blogID` = $id";
+    $query = mysqli_query($conn, $sql);
+    header("Location: ../index.php");
+    exit();
+
+    // echo 'ijergfoker';
+}
 ?>
 
 
@@ -62,7 +83,10 @@ if ($commentSubmit) {
             <div class="container">
                 <span class="badge bg-secondary p-3 mb-2"><?php echo $blog['category']; ?></span>
                 <?php if($sessionid == $blog['createdBy']){?>
-                    <a href="" class="btn btn-secondary">Edit</a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Edit
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop" name="delete">Delete Post</button>
                 <?php } ?>
                 <h1 class="text-white display-4 fw-bold"><?php echo $blog['title']; ?></h1>
                 <div class="d-flex align-items-center text-white mt-3">
@@ -101,14 +125,15 @@ if ($commentSubmit) {
             <div class="card bg-light mb-5 border-0">
                 <div class="card-body p-4">
                     <div class="d-flex">
-                        <div class="flex-shrink-0">
-                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
-                                <i class="bi bi-person-fill fs-2"></i>
-                            </div>
+                        <div class="flex-shrink-2">
+                            <?php if(getblogAuthorImage($blog['createdBy'])){ ?>
+                                <img src="../<?php echo getblogAuthorImage($blog['createdBy']); ?>" class="rounded-circle" style="width: 60px; height: 60px;" alt="">
+                            <?php } else{ ?>
+                                <i class="bi bi-person-fill fs-2"></i>  
+                            <?php } ?>  
                         </div>
                         <div class="ms-4">
-                            <h5 class="card-title">About the Author</h5>
-                            <h6 class="mb-2"><a href="../profile.php/?id=<?php echo $blog['createdBy']?>" style="text-decoration: none; color: black;"><?php echo getblogAuthor($blog['createdBy']); ?></a></h6>
+                            <h3 class="mb-2"><a href="../profile.php/?id=<?php echo $blog['createdBy']?>" style="text-decoration: none; color: black;"><?php echo getblogAuthor($blog['createdBy']); ?></a></h3>
                             <p class="card-text text-muted"><?php echo getblogAbout($blog['createdBy']);?></p>
                         </div>
                     </div>
@@ -173,7 +198,23 @@ if ($commentSubmit) {
 
 
 
+<?php if($sessionid == null){echo "";?>
 
+    <div id="container" class=" container text-center py-3">
+                <div class="row mb-3">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="text-center">You have to be logged in to leave a comment</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+<?php }else{?>
 <div class="container py-4">
     <div class="card shadow-sm">
       <div class="card-header d-flex justify-content-between align-items-center bg-white py-3">
@@ -192,7 +233,10 @@ if ($commentSubmit) {
           </div>
         </div>
 
+        <?php }?>
+
         <div id="container" class=" container py-3">
+            <h3 class="text-center">Comments</h3>
             <?php foreach ($comments as $comment) { ?>
                 <div class="row mb-3">
                     <div class="col-md-8 mx-auto">
@@ -209,11 +253,66 @@ if ($commentSubmit) {
                 </div>
             <?php } ?>
         </div>
+
+
+
       </div>
     </div>
   </div>
 
+  <!-- edit modal  -->
+  <form method="post">
 
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Blog</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" value="<?php echo $blog['title']; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <input type="text" class="form-control" id="category" name="category" value="<?php echo $blog['category']; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">Content</label>
+                    <textarea class="form-control" id="content" name="content" rows="3"><?php echo $blog['content']; ?></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button  type="submit" name="editBlog" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form> 
+
+  <!-- delete check modal  -->
+  
+<form action="" method="post">
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this post?</p>
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
   <style>
     .comment-avatar {

@@ -63,7 +63,7 @@ require('database.php');
                         if(move_uploaded_file($tempName, $target_image)) {
                             $imagePath = $target_image;
 
-                            $sql = "INSERT INTO `blogs`(`title`, `category`,  `content` , `imagePath`, `createdBy`)
+                            $sql = "INSERT INTO `blogs`(`title`, `category`, `content` , `imagePath`, `createdBy`)
                         VALUES ('$title', '$category', '$content', '$imagePath', '$authorID')
                         ";
                         $result = mysqli_query($conn, $sql);

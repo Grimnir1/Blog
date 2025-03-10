@@ -50,7 +50,7 @@
     </div>
 
 </form>
-
+<?php if (mysqli_num_rows($query) > 0) {?>
 <section class="container" style="min-height: 40dvh;">
     <div class="row">
         <?php foreach ($blogPosts as $blog) { ?>
@@ -69,6 +69,14 @@
         <?php } ?>
     </div>
 </section>
+
+<?php }else{?>
+    <section class="container justify-content-center" style="min-height: 40dvh;">
+    <div class="row">
+       <p class="text-center">Blog not found</p>
+    </div>
+</section>
+<?php }?>
 
     
     <?php require 'footer.php'?>
